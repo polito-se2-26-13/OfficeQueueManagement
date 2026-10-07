@@ -83,7 +83,10 @@ JSON responses:
 	      "description": string,
     }
 }
-
+//500
+{
+    "error":string
+}
 ```
 ## PUT
 
