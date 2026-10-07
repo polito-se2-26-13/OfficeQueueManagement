@@ -1,34 +1,32 @@
-#python .venv
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
 
-app/server/.venv
+# Database files created at runtime
+*.db
+*.sqlite
+*.sqlite3
 
-# React
-client/node_modules/
-client/dist/
-client/dist-ssr/
-client/*.local
+# Local settings
+.env
 
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
+# Node and Vite
+node_modules/
+dist/
+dist-ssr/
 *.local
 
-# Editor directories and files
+# Logs
+*.log
+npm-debug.log*
+
+# Editors and OS
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
