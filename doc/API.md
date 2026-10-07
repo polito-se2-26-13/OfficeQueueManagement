@@ -1,15 +1,20 @@
 # API List
 
+
+All paths start with `/api` (the Vite dev server forwards them to the backend).<br>
+Errors return `{"detail": "message"}`. Live docs: http://localhost:8000/docs
+
 ## GET
 
 **show service**
 
-name: `api/v1/service`<br>
+name: `/api/services`<br>
 parameter:-<br>
 body:-<br>
-HTTP Status: 202 ok, 500 ISE <br>
+HTTP Status: 200 ok, 500 ISE <br>
 JSON response: 
 ```json 
+//200
 [{
     "service_id": int,
     "service_name": string,
@@ -21,12 +26,17 @@ JSON response:
     "description": string,
 }... 
 ]
+
+//500
+{
+    "error":string
+}
 ```
 ## POST
 
 **new ticket**
 
-name: `api/v1/service/ticket`<br>
+name: `/api/tickets`<br>
 parameter:-<br>
 body:
 ```json
@@ -34,9 +44,10 @@ body:
     "service_id": int
 }
 ```
-HTTP Status: 201 ok, 500 ISE <br>
+HTTP Status: 201 ok, 500 ISE,404 Not Found (unknown service) <br>
 JSON response: 
 ```json 
+//201
 {
     "ticket_id": int,
     "ticket_cod": string,
@@ -44,19 +55,25 @@ JSON response:
     "timeStamp": string,
 }
 
+//404
+{
+    "error":string
+}
+
+//500
+{
+    "error":string
+}
 ```
-
-## PUT
-
 **next customer**
 
-name: `api/v1/couter/{id_counter}/next-customer`<br>
+name: `/api/couters/{id_counter}/next-customer`<br>
 parameter: id_counter<br>
 body:-<br>
-HTTP Status: 200 ok, 500 ISE <br>
+HTTP Status: 200 ok, 204 no content 500 ISE <br>
 JSON responses: 
 ```json
-//not empty queue 
+//200 
 {
     "ticket_id": int,
     "ticket_cod": string,
@@ -67,12 +84,8 @@ JSON responses:
     }
 }
 
-//empty queue 
-{
-    "ticket_id": null,
-    "ticket_cod": null,
-    "service_name": null,
-}
 ```
+## PUT
+
 
 ## DELETE
