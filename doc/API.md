@@ -32,6 +32,29 @@ JSON response:
     "error":string
 }
 ```
+
+
+
+name: `/api/couters`<br>
+parameter:-<br>
+body:-<br>
+HTTP Status: 200 ok, 500 ISE <br>
+JSON response: 
+```json 
+//200
+[{
+    "counter_id": int
+},
+{
+    "counter_id": int
+}... 
+]
+
+//500
+{
+    "error":string
+}
+```
 ## POST
 
 **new ticket**
@@ -81,6 +104,10 @@ JSON responses:
 	      "service_id": int,
 	      "service_name": string,
 	      "description": string,
+    },
+    "counter": {
+        "counter_id": int,
+        "position": string,
     }
 }
 //500
