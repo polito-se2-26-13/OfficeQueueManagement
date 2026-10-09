@@ -1,96 +1,64 @@
-# run with: py -3.10 -m uvicorn main:app --reload
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
+# run with: py -m uvicorn server.main:app --reload  (from project root)
+from fastapi import FastAPI
 
-from database import Base, engine, get_db
-from models.DAO.models import ServiceDAO, TicketDAO
-from models.DTO.schemas import (
-    ServiceDTO, ServicesResponseDTO,
-    TicketRequestDTO, TicketResponseDTO,
-    NextCustomerRequestDTO, NextCustomerResponseDTO
-)
+from server.database import Base, engine, SessionLocal
+from server.routes import counter_router, service_router, ticket_router
 
-# make sure tables exist before anything starts
+# create all tables on startup if they don't exist
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Office Queue Management")
 
+
 @app.on_event("startup")
-def startup_event():
-    # add some default services if db is empty
-    db = next(get_db())
-    if db.query(ServiceDAO).count() == 0:
-        db.add_all([
-            ServiceDAO(name="Shipping", description="Send packages and letters", prefix="S"),
-            ServiceDAO(name="Accounts", description="Manage your bank account", prefix="A"),
-        ])
+def seed_database():
+    """Seed the database with sample data if it is empty."""
+    from server.models.DAO.service_dao import ServiceDAO
+    from server.models.DAO.counter_dao import CounterDAO
+    from server.models.DAO.counter_service_dao import CouterServiceDAO
+
+    db = SessionLocal()
+    try:
+        if db.query(ServiceDAO).count() == 0:
+            services = [
+                ServiceDAO(name="Customer Support", description="Assistance with customer requests and issues."),
+                ServiceDAO(name="Payments",         description="Processing payments and transactions."),
+                ServiceDAO(name="Document Collection", description="Collection of requested documents."),
+                ServiceDAO(name="Technical Support",   description="Help with technical problems."),
+            ]
+            db.add_all(services)
+            db.flush()   # populate service_id before using them in counter_services
+
+        if db.query(CounterDAO).count() == 0:
+            counters = [
+                CounterDAO(position=3),
+                CounterDAO(position=1),
+                CounterDAO(position=4),
+                CounterDAO(position=2),
+            ]
+            db.add_all(counters)
+            db.flush()   # populate counter_id
+
+            # wire up counter_services: each counter handles all services
+            services = db.query(ServiceDAO).all()
+            for counter in counters:
+                for service in services:
+                    db.add(CouterServiceDAO(
+                        counter_id=counter.counter_id,
+                        service_id=service.service_id,
+                    ))
+
         db.commit()
+    finally:
+        db.close()
 
 
 @app.get("/api/health")
 def health():
+    """Quick check that the backend is running."""
     return {"status": "ok"}
 
 
-@app.get("/api/services", response_model=ServicesResponseDTO)
-def get_services(db: Session = Depends(get_db)):
-    services = db.query(ServiceDAO).all()
-    # map each db row to a DTO
-    services_dto = [
-        ServiceDTO(
-            service_id=s.id,
-            service_name=s.name,
-            description=s.description
-        ) for s in services
-    ]
-    return {"services": services_dto}
-
-
-@app.post("/api/ticket", response_model=TicketResponseDTO)
-def create_ticket(request: TicketRequestDTO, db: Session = Depends(get_db)):
-    service = db.query(ServiceDAO).filter(ServiceDAO.id == request.service_id).first()
-    if not service:
-        raise HTTPException(status_code=404, detail="Service not found")
-
-    # ticket code is just prefix + how many tickets already exist for this service
-    ticket_count = db.query(TicketDAO).filter(TicketDAO.service_id == service.id).count()
-    ticket_code = f"{service.prefix}{ticket_count + 1:03d}"
-
-    new_ticket = TicketDAO(
-        code=ticket_code,
-        service_id=service.id,
-        status="waiting"
-    )
-    db.add(new_ticket)
-    db.commit()
-    db.refresh(new_ticket)
-
-    return TicketResponseDTO(
-        ticket_id=new_ticket.id,
-        ticket_code=new_ticket.code
-    )
-
-
-@app.put("/api/customers/next", response_model=NextCustomerResponseDTO)
-def call_next_customer(request: NextCustomerRequestDTO, db: Session = Depends(get_db)):
-    # grab the oldest waiting ticket
-    next_ticket = db.query(TicketDAO).filter(TicketDAO.status == "waiting").order_by(TicketDAO.id).first()
-
-    if not next_ticket:
-        raise HTTPException(status_code=404, detail="No customers waiting")
-
-    next_ticket.status = "served"
-    db.commit()
-    db.refresh(next_ticket)
-
-    service_dto = ServiceDTO(
-        service_id=next_ticket.service.id,
-        service_name=next_ticket.service.name,
-        description=next_ticket.service.description
-    )
-
-    return NextCustomerResponseDTO(
-        counter_id=request.counter_id,
-        customer_id=next_ticket.id,
-        service=service_dto
-    )
+app.include_router(counter_router.router)
+app.include_router(service_router.router)
+app.include_router(ticket_router.router)
