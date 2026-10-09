@@ -33,7 +33,7 @@ JSON response:
 }
 ```
 
-
+**show counter**
 
 name: `/api/couters`<br>
 parameter:-<br>
