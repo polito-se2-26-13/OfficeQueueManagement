@@ -13,7 +13,6 @@ app = FastAPI(title="Office Queue Management")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ORIGIN,
-    allow_credentials=True, #do we need it?
     allow_methods=["*"],
     allow_headers=["*"],
 )
