@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from server.config.config import ORIGIN
-from server.database import Base, engine, SessionLocal
+from server.database import Base, engine
 from server.routes import counter_router, service_router, ticket_router
 
 # create all tables on startup if they don't exist

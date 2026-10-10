@@ -31,7 +31,7 @@ function Customer() {
           accordion
           style={{ width: '80%' }}
           items={services.map(service => ({
-            key: service.id,
+            key: service.service_id,
             label: (
               <Flex justify="space-between" align="center" style={{ paddingInline: '20px' }}>
                 <div>{service.service_name}</div>
