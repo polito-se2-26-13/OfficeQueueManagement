@@ -47,12 +47,37 @@ The app runs on http://localhost:5173. Calls to `/api/...` are forwarded to the 
 
 ## Tests
 
-With the virtual environment active:
+### Backend
+
+Unit and integration tests, with the virtual environment active:
 
 ```
 cd server
 pytest
 ```
+
+Integration tests create a new SQLite file for every test, so they never touch `server/queue.db`.
+
+### End to end
+
+End to end tests are in `client/e2e`. They use [Playwright](https://playwright.dev) to drive a real browser through the app, so the backend and the frontend must both be running (see above), and the database needs at least one service. A new `queue.db` starts empty: add some services first, for example with the `INSERT` statements in `doc/sql.txt`. Every run creates real tickets in the database.
+
+The first time, download the browser Playwright uses (on Linux, add `--with-deps`):
+
+```
+cd client
+npm install
+npx playwright install chromium
+```
+
+Then run the tests:
+
+```
+cd client
+npm run test:e2e
+```
+
+To watch the browser while the tests run, use `npm run test:e2e -- --headed`.
 
 ## Branches
 
