@@ -16,7 +16,8 @@ cd server
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn main:app --reload
+cd ..
+uvicorn server.main:app --reload
 ```
 
 If PowerShell says that running scripts is disabled, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once and open a new terminal. If `python` opens the Microsoft Store, use `py` instead.
@@ -28,10 +29,11 @@ cd server
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn main:app --reload
+cd ..
+uvicorn server.main:app --reload
 ```
 
-The API runs on http://localhost:8000 and its documentation on http://localhost:8000/docs.
+The backend is started from the project root, because its modules import each other as `server.<module>`. The API runs on http://localhost:8000 and its documentation on http://localhost:8000/docs.
 
 ## Run the frontend
 
