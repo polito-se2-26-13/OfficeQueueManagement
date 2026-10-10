@@ -6,6 +6,7 @@ import Customer from './pages/Customer'
 import Officer from './pages/Officer'
 import Admin from './pages/Admin'
 import Ticket from './pages/Ticket'
+import Counter from './pages/Counter'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/officer" element={<Officer />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/ticket/:code" element={<Ticket />} />
+          <Route path="/counter/:id" element={<Counter />} />
         </Routes>
       </BrowserRouter>
     </>
