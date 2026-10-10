@@ -18,10 +18,9 @@ function Customer() {
   useEffect(() => {
     const fetchServices = async () => {
       const data = await getServices();
-      setServices(data.services);
+      setServices(data);
     };
     fetchServices();
-    console.log(services);
   }, []);
 
   return (
@@ -35,8 +34,8 @@ function Customer() {
             key: service.id,
             label: (
               <Flex justify="space-between" align="center" style={{ paddingInline: '20px' }}>
-                <div>{service.name}</div>
-                <Button type="primary" size="large" onClick={() => handleClick(service.id)}>
+                <div>{service.service_name}</div>
+                <Button type="primary" size="large" onClick={() => handleClick(service.service_id)}>
                   select
                 </Button>
               </Flex>
