@@ -29,6 +29,15 @@ class CounterRepository:
             if self.session is None:
                 session.close()
 
+    def counter_exists(self, id_counter: int) -> bool:
+        """True if a counter with the given id exists."""
+        session = self._get_session()
+        try:
+            return session.get(CounterDAO, id_counter) is not None
+        finally:
+            if self.session is None:
+                session.close()
+
     def get_next_customer(self, id_counter: int) -> tuple[TicketDAO, ServiceDAO, CounterDAO] | None:
         """Return the oldest waiting ticket for the given counter, or None."""
         session = self._get_session()

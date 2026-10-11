@@ -9,6 +9,9 @@ class CounterController():
         daos= self.repo.get_counter_list();
         return  [counterDao_to_responseDTO(dao) for dao in daos]
 
+    def counter_exists(self,id_counter:int) -> bool:
+        return self.repo.counter_exists(id_counter)
+
     def get_next_customer(self,id_counter:int):
         dao=self.repo.get_next_customer(id_counter)
         if dao is None:
