@@ -1,5 +1,4 @@
 """Integration tests of the Get ticket story (OQM-2): GET /api/services and POST /api/tickets."""
-import pytest
 
 from server.models.DAO.service_dao import ServiceDAO
 from server.models.DAO.ticket_dao import TicketDAO
@@ -73,7 +72,6 @@ def test_ticket_without_service_id(client):
     assert response.status_code == 422
 
 
-@pytest.mark.xfail(strict=True, reason="codes repeat when two services share the initial, about to be fixed in OQM-19")
 def test_codes_are_unique_with_the_same_initial(client, db):
     shipping = add_service(db, "Shipping")
     savings = add_service(db, "Savings")
