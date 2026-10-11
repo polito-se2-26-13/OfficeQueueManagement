@@ -112,7 +112,6 @@ def test_tie_goes_to_the_queue_waiting_longest(client, office):
     assert response.json()["ticket_cod"] == first_payment["ticket_cod"]
 
 
-@pytest.mark.xfail(strict=True, reason="the called ticket is never marked as served, fixed by the pending StatusTicket PR")
 def test_called_ticket_leaves_the_queue(client, office):
     take_ticket(client, office["support"])
 
