@@ -1,6 +1,6 @@
 from typing import Optional
-from server.const import WAITING
-from sqlalchemy import select, func
+from server.const import StatusTicket
+from sqlalchemy import select, func, update
 from sqlalchemy.orm import Session
 from server.models.DAO.counter_dao import CounterDAO
 from server.models.DAO.service_dao import ServiceDAO
@@ -47,7 +47,7 @@ class CounterRepository:
                 .join(CouterServiceDAO, TicketDAO.service_id == CouterServiceDAO.service_id)
                 .where(
                     CouterServiceDAO.counter_id == id_counter,
-                    TicketDAO.status == WAITING,
+                    TicketDAO.status == StatusTicket.WAITING,
                 )
                 .group_by(TicketDAO.service_id)
                 .order_by(func.count().desc(), func.min(TicketDAO.created_time).asc())
@@ -63,7 +63,7 @@ class CounterRepository:
                 .join(CounterDAO, CounterDAO.counter_id == CouterServiceDAO.counter_id)
                 .where(
                     CouterServiceDAO.counter_id == id_counter,
-                    TicketDAO.status == WAITING,
+                    TicketDAO.status == StatusTicket.WAITING,
                     TicketDAO.service_id == longest_queue,
                 )
                 .order_by(TicketDAO.created_time.asc(), TicketDAO.ticket_cod.asc())
@@ -77,6 +77,20 @@ class CounterRepository:
             session.expunge(service)
             session.expunge(counter)
             return ticket, service, counter
+        finally:
+            if self.session is None:
+                session.close()
+
+    def update_ticket_status(self, id_ticket:int ,new_status:StatusTicket):
+        """update ticket status"""
+        session=self._get_session()
+        try:
+            session.execute(
+                update(TicketDAO)
+                .where(TicketDAO.ticket_id==id_ticket)
+                .values(status=new_status)
+            )
+            session.commit()
         finally:
             if self.session is None:
                 session.close()

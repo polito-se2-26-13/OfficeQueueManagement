@@ -1,5 +1,6 @@
 from server.repositories.counter_reposotory import CounterRepository
 from server.service.mapper_service import counterDao_to_responseDTO,next_customerDAO_to_ResponseDTO
+from server.const import StatusTicket
 
 class CounterController():
     def __init__(self):
@@ -13,9 +14,10 @@ class CounterController():
         return self.repo.counter_exists(id_counter)
 
     def get_next_customer(self,id_counter:int):
-        dao=self.repo.get_next_customer(id_counter)
-        if dao is None:
+        daos=self.repo.get_next_customer(id_counter)
+        if daos is None:
             return None
         else:
-            ticket,service,counter=dao
+            ticket,service,counter=daos
+            self.repo.update_ticket_status(ticket.ticket_id,StatusTicket.INPROGRESS)
             return next_customerDAO_to_ResponseDTO(ticket,service,counter)
