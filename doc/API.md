@@ -29,7 +29,30 @@ JSON response:
 
 //500
 {
-    "error":string
+    "detail":string
+}
+```
+
+**show counter**
+
+name: `/api/counters`<br>
+parameter:-<br>
+body:-<br>
+HTTP Status: 200 ok, 500 ISE <br>
+JSON response: 
+```json 
+//200
+[{
+    "counter_id": int
+},
+{
+    "counter_id": int
+}... 
+]
+
+//500
+{
+    "detail":string
 }
 ```
 ## POST
@@ -57,20 +80,20 @@ JSON response:
 
 //404
 {
-    "error":string
+    "detail":string
 }
 
 //500
 {
-    "error":string
+    "detail":string
 }
 ```
 **next customer**
 
-name: `/api/couters/{id_counter}/next-customer`<br>
+name: `/api/counters/{id_counter}/next-customer`<br>
 parameter: id_counter<br>
 body:-<br>
-HTTP Status: 200 ok, 204 no content 500 ISE <br>
+HTTP Status: 200 ok, 204 no content, 404 not found, 500 ISE <br>
 JSON responses: 
 ```json
 //200 
@@ -81,11 +104,19 @@ JSON responses:
 	      "service_id": int,
 	      "service_name": string,
 	      "description": string,
+    },
+    "counter": {
+        "counter_id": int,
+        "position": int,
     }
+}
+//404
+{
+    "detail": string
 }
 //500
 {
-    "error":string
+    "detail":string
 }
 ```
 ## PUT

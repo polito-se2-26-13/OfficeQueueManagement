@@ -12,7 +12,7 @@ SessionLocal = sessionmaker(bind=engine)
 
 
 class Base(DeclarativeBase):
-    """Parent class of every table defined in models.py."""
+    """Parent class of every table in models/DAO.""" 
 
 
 def get_db():
