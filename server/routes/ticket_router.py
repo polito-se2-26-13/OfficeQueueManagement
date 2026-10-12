@@ -12,6 +12,7 @@ controller = TicketController()
     "/",
     response_model=TicketResponseDTO,
     status_code=status.HTTP_201_CREATED,
+    responses={404: {"description": "Service not found"}},
 )
 def create_ticket(body: TicketRequestDTO):
     """POST /api/tickets — Issue a new ticket for the given service."""

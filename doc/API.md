@@ -29,7 +29,7 @@ JSON response:
 
 //500
 {
-    "error":string
+    "detail":string
 }
 ```
 
@@ -52,7 +52,7 @@ JSON response:
 
 //500
 {
-    "error":string
+    "detail":string
 }
 ```
 ## POST
@@ -80,12 +80,12 @@ JSON response:
 
 //404
 {
-    "error":string
+    "detail":string
 }
 
 //500
 {
-    "error":string
+    "detail":string
 }
 ```
 **next customer**
@@ -112,7 +112,7 @@ JSON responses:
 }
 //500
 {
-    "error":string
+    "detail":string
 }
 ```
 ## PUT
