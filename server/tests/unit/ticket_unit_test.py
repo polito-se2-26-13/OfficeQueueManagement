@@ -155,7 +155,9 @@ class TestTicketRepository:
         mock_session.get.return_value = fake_service
 
     # Simulate the database assigning ticket_id = 1
-        def assign_ticket_id(ticket):
+        def assign_ticket_id():
+          # Find the TicketDAO passed to session.add()
+          ticket = mock_session.add.call_args[0][0]
           ticket.ticket_id = 1
 
         mock_session.flush.side_effect = assign_ticket_id
@@ -180,7 +182,8 @@ class TestTicketRepository:
         mock_session.get.return_value = fake_service
         
         # Simulate the database assigning ticket_id = 3
-        def assign_ticket_id(ticket):
+        def assign_ticket_id():
+          ticket = mock_session.add.call_args[0][0]
           ticket.ticket_id = 3
         mock_session.flush.side_effect = assign_ticket_id
         repo = TicketRepository(session=mock_session)
