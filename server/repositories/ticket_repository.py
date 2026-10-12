@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from server.models.DAO.ticket_dao import TicketDAO
 from server.models.DAO.service_dao import ServiceDAO
 from server.database import SessionLocal
-from server.const import WAITING
+from server.const import StatusTicket
 
 
 class TicketRepository:
@@ -30,7 +30,7 @@ class TicketRepository:
             new_ticket = TicketDAO(
                 ticket_cod="", # to be generated
                 service_id=service_id,
-                status=WAITING,
+                status=StatusTicket.WAITING,
                 created_time=now,
             )
             session.add(new_ticket)
