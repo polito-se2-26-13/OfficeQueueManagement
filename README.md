@@ -60,7 +60,7 @@ Integration tests create a new SQLite file for every test, so they never touch `
 
 ### End to end
 
-End to end tests are in `client/e2e`. They use [Playwright](https://playwright.dev) to drive a real browser through the app, so the backend and the frontend must both be running (see above), and the database needs at least one service. A new `queue.db` starts empty: add some services first, for example with the `INSERT` statements in `doc/sql.txt`. Every run creates real tickets in the database.
+End to end tests are in `client/e2e`. They use [Playwright](https://playwright.dev) to drive a real browser through the app, so the backend and the frontend must both be running (see above), and the database needs services and counters, with the first counter serving at least one service. A new `queue.db` starts empty: add some services first, for example with the `INSERT` statements in `doc/sql.txt`. Every run creates real tickets in the database.
 
 The first time, download the browser Playwright uses (on Linux, add `--with-deps`):
 
