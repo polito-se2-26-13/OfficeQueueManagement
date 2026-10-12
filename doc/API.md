@@ -35,7 +35,7 @@ JSON response:
 
 **show counter**
 
-name: `/api/couters`<br>
+name: `/api/counters`<br>
 parameter:-<br>
 body:-<br>
 HTTP Status: 200 ok, 500 ISE <br>
@@ -90,10 +90,10 @@ JSON response:
 ```
 **next customer**
 
-name: `/api/couters/{id_counter}/next-customer`<br>
+name: `/api/counters/{id_counter}/next-customer`<br>
 parameter: id_counter<br>
 body:-<br>
-HTTP Status: 200 ok, 204 no content 500 ISE <br>
+HTTP Status: 200 ok, 204 no content, 404 not found, 500 ISE <br>
 JSON responses: 
 ```json
 //200 
@@ -107,8 +107,12 @@ JSON responses:
     },
     "counter": {
         "counter_id": int,
-        "position": string,
+        "position": int,
     }
+}
+//404
+{
+    "detail": string
 }
 //500
 {

@@ -8,13 +8,17 @@ function Counter() {
   const { id } = useParams();
   const [nextInfo, setNextInfo] = useState(null);
   const [hasCalled, setHasCalled] = useState(false);
+  const [error, setError] = useState(null);
   const handleClick = async () => {
     try {
       const nextInfo = await nextCustomer(id);
       setNextInfo(nextInfo);
+      setError(null);
       setHasCalled(true);
     } catch (error) {
       console.error('Error fetching next customer:', error);
+      setHasCalled(false);
+      setError('Could not call the next customer. Please try again.');
     }
   };
 
@@ -39,6 +43,7 @@ function Counter() {
           <p>No more customers in the queue.</p>
         )}
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </Flex>
   );
 }

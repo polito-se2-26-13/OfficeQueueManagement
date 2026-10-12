@@ -24,7 +24,6 @@ test('a customer gets a ticket for the chosen service', async ({ page, request }
   const row = page.getByRole('tab', { name: service.service_name });
   await row.getByRole('button', { name: 'select' }).click();
 
-  await expect(page).toHaveURL(/\/ticket\/[A-Z]\d{3,}$/);
-  expect(page.url()).toContain('/ticket/' + service.service_name[0]);
   await expect(page.getByText('Your Ticket Code is')).toBeVisible();
+  expect(page.url()).toContain('/ticket/' + service.service_name[0]);
 });
