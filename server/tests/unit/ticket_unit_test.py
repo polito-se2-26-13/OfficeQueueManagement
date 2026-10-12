@@ -6,6 +6,7 @@ from server.service.mapper_service import ticketDAO_to_responseDTO
 from server.repositories.ticket_repository import TicketRepository
 from server.models.DAO.service_dao import ServiceDAO
 from server.models.DAO.counter_service_dao import CouterServiceDAO
+from datetime import time
 
 
 # ============================================================
@@ -23,7 +24,7 @@ class TestTicketMapperService:
         fake_ticket = MagicMock()
         fake_ticket.ticket_id = 1
         fake_ticket.ticket_cod = "C001"
-        fake_ticket.created_time = "10:30:00"
+        fake_ticket.created_time = time(10, 30, 0)
 
         fake_service = MagicMock()
         fake_service.name = "Consulting"
@@ -152,7 +153,12 @@ class TestTicketRepository:
         fake_service.description = "Consulting description"
 
         mock_session.get.return_value = fake_service
-        mock_session.scalar.return_value = 0
+
+    # Simulate the database assigning ticket_id = 1
+        def assign_ticket_id(ticket):
+          ticket.ticket_id = 1
+
+        mock_session.flush.side_effect = assign_ticket_id
 
         repo = TicketRepository(session=mock_session)
         ticket, returned_service = repo.create_ticket(service_id=1)
@@ -173,9 +179,10 @@ class TestTicketRepository:
         fake_service.description = "Consulting description"
         mock_session.get.return_value = fake_service
         
-        # Mock that 2 tickets already exist, so the next ticket code should be C003
-        mock_session.scalar.return_value = 2
-
+        # Simulate the database assigning ticket_id = 3
+        def assign_ticket_id(ticket):
+          ticket.ticket_id = 3
+        mock_session.flush.side_effect = assign_ticket_id
         repo = TicketRepository(session=mock_session)
         ticket, returned_service = repo.create_ticket(service_id=1)
 
@@ -186,6 +193,6 @@ class TestTicketRepository:
         
         # Verify that database transaction operations are called
         mock_session.add.assert_called_once()
+        mock_session.flush.assert_called_once()
         mock_session.commit.assert_called_once()
-        mock_session.expunge.assert_any_call(ticket)
-        mock_session.expunge.assert_any_call(returned_service)
+       
