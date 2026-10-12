@@ -28,7 +28,7 @@ def ticketDAO_to_responseDTO(ticket_dao: TicketDAO, service_dao: ServiceDAO) -> 
         ticket_id=ticket_dao.ticket_id,
         ticket_cod=ticket_dao.ticket_cod,
         service_name=service_dao.name,
-        timeStamp=str(ticket_dao.created_time),
+        timeStamp=ticket_dao.created_time.strftime("%H:%M:%S"),
     )
 
 

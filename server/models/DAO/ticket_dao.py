@@ -6,7 +6,7 @@ class TicketDAO(Base):
     __tablename__="tickets"
     
     ticket_id=Column(Integer,primary_key=True,autoincrement=True)
-    ticket_cod=Column(String,nullable=False)
+    ticket_cod=Column(String, nullable=False, unique=True) 
     service_id=Column(Integer,  ForeignKey("services.service_id"),nullable=False)
     status = Column(String, nullable=False)
     created_time = Column(Time, nullable=False)
