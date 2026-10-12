@@ -16,7 +16,8 @@ cd server
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn main:app --reload
+cd ..
+uvicorn server.main:app --reload
 ```
 
 If PowerShell says that running scripts is disabled, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once and open a new terminal. If `python` opens the Microsoft Store, use `py` instead.
@@ -28,10 +29,11 @@ cd server
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn main:app --reload
+cd ..
+uvicorn server.main:app --reload
 ```
 
-The API runs on http://localhost:8000 and its documentation on http://localhost:8000/docs.
+The backend is started from the project root, because its modules import each other as `server.<module>`. The API runs on http://localhost:8000 and its documentation on http://localhost:8000/docs.
 
 ## Run the frontend
 
@@ -45,12 +47,37 @@ The app runs on http://localhost:5173. Calls to `/api/...` are forwarded to the 
 
 ## Tests
 
-With the virtual environment active:
+### Backend
+
+Unit and integration tests, with the virtual environment active:
 
 ```
 cd server
 pytest
 ```
+
+Integration tests create a new SQLite file for every test, so they never touch `server/queue.db`.
+
+### End to end
+
+End to end tests are in `client/e2e`. They use [Playwright](https://playwright.dev) to drive a real browser through the app, so the backend and the frontend must both be running (see above), and the database needs at least one service. A new `queue.db` starts empty: add some services first, for example with the `INSERT` statements in `doc/sql.txt`. Every run creates real tickets in the database.
+
+The first time, download the browser Playwright uses (on Linux, add `--with-deps`):
+
+```
+cd client
+npm install
+npx playwright install chromium
+```
+
+Then run the tests:
+
+```
+cd client
+npm run test:e2e
+```
+
+To watch the browser while the tests run, use `npm run test:e2e -- --headed`.
 
 ## Branches
 
