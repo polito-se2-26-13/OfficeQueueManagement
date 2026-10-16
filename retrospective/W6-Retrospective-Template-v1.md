@@ -14,19 +14,19 @@ sections:
 
 - Number of stories committed vs done: **2 vs 2**
 - Total points committed vs done: **7 vs 7**
-- Nr of hours planned vs spent (as a team): **38h vs 47**
+- Nr of hours planned vs spent (as a team): **38h vs 47h**
 
 
 ### Detailed statistics
 
 | Story  | # Tasks | Points | Hours est. | Hours actual |
 |--------|---------|--------|------------|--------------|
-| _#0 technical detail_   |     7    |    0   |     16h       |21h              |
-| _#1 Get ticket_   |     7    |    2   |     16h       |15h 25m              |
+| _#0 technical detail_   |     7    |    -   |     16h       |21h              |
+| _#1 Get ticket_   |     7    |    2   |     12h       |15h 25m              |
 | _#2 Next customer_   |     5    |    5   |     10h       |10h 35m              |
    
 
-- Hours per task average, standard deviation (estimate and actual), over 19 tasks (stories 1 and 2)
+- Hours per task average, standard deviation (estimate and actual), over 19 tasks (stories #0, 1 and 2)
 
 |            | Mean | StDev |
 |------------|------|-------|
@@ -36,10 +36,14 @@ sections:
 - Total estimation error ratio: sum of total hours spent / sum of total hours effort - 1
 
     $$\frac{\sum_i spent_{task_i}}{\sum_i estimation_{task_i}} - 1$$
+
+    <br>47h / 38h - 1 = **0.24**, we spent 24% more than we estimated
     
 - Absolute relative task estimation error: sum( abs( spent-task-i / estimation-task-i - 1))/n
 
     $$\frac{1}{n}\sum_i^n \left| \frac{spent_{task_i}}{estimation_task_i}-1 \right| $$
+
+    <br>**0.36**, on average a single task was off by about 36%
 
   
 ## QUALITY MEASURES 
@@ -68,7 +72,13 @@ sections:
 
 ## ASSESSMENT
 
+- What did go wrong in the sprint?
+  - Almost all the integration happened on the review day. Six pull requests were merged in about one hour, and the burndown stayed flat and dropped on the last day.
+  - The cards on the board were moved by one person at the end of the sprint, instead of by each member while working on them.
+  - At the demo the interface was too minimal, and some data of the backend, such as the services of each counter, was not shown. The feedback we received asked us to separate the customer menu from the other roles, add CSS styling, display the services of each counter, and add QR code generation and a way to print the ticket.
+
 - What caused your errors in estimation (if any)?
+  - Our estimates covered only 38h of the 50h budget of the team (5 members for 10h each), so part of the work was never planned as a task.
   - Agreeing on the tech stack and the workflow (OQM-27) took 8h instead of 4h, because the discussions were long in a team with very different experience.
   - The totem UI (OQM-23) took 3h 50m instead of 2h. It was first built on fake data and connected to the real backend only late.
   - The unit tests (OQM-16, OQM-22) took 3h each instead of 2h, because mocking the database session was new for us and the first version had to be fixed.
@@ -85,7 +95,7 @@ sections:
   
   
 - Which ones you were not able to achieve? Why?
-  -Not applicable, for the same reason.
+  - Not applicable, for the same reason.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
   1. **Integrate early and rehearse the demo.** Every story has a thin working version merged into `dev` by the middle of the sprint, and nothing big is merged in the last 24 hours. Each sprint has a demo owner, a different person each time, who tries the whole product as a user two days before the demo. Mid-sprint integration and the rehearsal are tasks on the board, with an estimate.
