@@ -1,0 +1,71 @@
+** create table counter **
+CREATE TABLE counter (
+    counter_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    position INTEGER NOT NULL
+);
+
+**create sevice**
+CREATE TABLE services (
+    service_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(50) NOT NULL,
+    description varchar(255)
+);
+
+
+** table n-n services and counter**
+
+CREATE TABLE counter_services (
+    counter_id INTEGER NOT NULL,
+    service_id INTEGER NOT NULL,
+
+    PRIMARY KEY (counter_id, service_id),
+
+    FOREIGN KEY (counter_id)
+        REFERENCES counter(counter_id)
+        ,
+
+    FOREIGN KEY (service_id)
+        REFERENCES services(service_id)
+        
+);
+
+**create tickets**
+CREATE TABLE tickets (
+    ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_cod VARCHAR(20) NOT NULL UNIQUE,
+    service_id INTEGER NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'WAITING',
+    created_time TIME NOT NULL DEFAULT (TIME('now', 'localtime')),
+
+    FOREIGN KEY (service_id)
+        REFERENCES services(service_id)
+);
+** add row in counter **
+INSERT INTO counter (position)
+VALUES
+    (3),
+    (1),
+    (4),
+    (2);
+
+**add row in services**
+INSERT INTO services (name, description)
+VALUES
+    ('Customer Support', 'Assistance with customer requests and issues.'),
+    ('Payments', 'Processing payments and transactions.'),
+    ('Document Collection', 'Collection of requested documents.'),
+    ('Technical Support', 'Help with technical problems.');
+
+** add row in ticket**
+INSERT INTO tickets (ticket_cod, service_id, status, created_time)
+VALUES
+    ('C001', 1, 'WAITING', '09:00:00'),
+    ('C002', 1, 'WAITING', '09:05:00'),
+    ('C003', 1, 'WAITING', '09:10:00'),
+    ('P001', 2, 'WAITING', '09:02:00'),
+    ('P002', 2, 'WAITING', '09:12:00'),
+    ('D001', 3, 'WAITING', '09:04:00'),
+    ('D002', 3, 'WAITING', '09:15:00'),
+    ('T001', 4, 'WAITING', '09:07:00'),
+    ('T002', 4, 'WAITING', '09:17:00'),
+    ('T003', 4, 'WAITING', '09:20:00');
