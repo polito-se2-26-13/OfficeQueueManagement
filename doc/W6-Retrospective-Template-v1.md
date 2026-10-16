@@ -1,4 +1,4 @@
-TEMPLATE FOR RETROSPECTIVE (Team ##)
+TEMPLATE FOR RETROSPECTIVE (Team 13)
 =====================================
 
 The retrospective should include _at least_ the following
@@ -12,35 +12,26 @@ sections:
 
 ### Macro statistics
 
-- Number of stories committed vs done 
-- Total points committed vs done 
-- Nr of hours planned vs spent (as a team)
+- Number of stories committed vs done: **2 vs 2**
+- Total points committed vs done: **7 vs 7**
+- Nr of hours planned vs spent (as a team): **38h vs 47**
 
-**Remember**  a story is done ONLY if it fits the Definition of Done:
- 
-- Unit Tests passing
-- Code review completed
-- Code present on Git
-- End-to-End tests performed
-
-> Please refine your DoD 
 
 ### Detailed statistics
 
 | Story  | # Tasks | Points | Hours est. | Hours actual |
 |--------|---------|--------|------------|--------------|
-| _#0_   |         |    -   |            |              |
-| n      |         |        |            |              |
+| _#0 technical detail_   |     7    |    0   |     16h       |21h              |
+| _#1 Get ticket_   |     7    |    2   |     16h       |15h 25m              |
+| _#2 Next customer_   |     5    |    5   |     10h       |10h 35m              |
    
 
-> place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
-
-- Hours per task average, standard deviation (estimate and actual)
+- Hours per task average, standard deviation (estimate and actual), over 19 tasks (stories 1 and 2)
 
 |            | Mean | StDev |
 |------------|------|-------|
-| Estimation |      |       | 
-| Actual     |      |       |
+| Estimation | 2h     |1h 43m       | 
+| Actual     |    2h 28m  |2h 10m       |
 
 - Total estimation error ratio: sum of total hours spent / sum of total hours effort - 1
 
@@ -55,30 +46,50 @@ sections:
 
 - Unit Testing:
   - Total hours estimated
+    <br>4h
   - Total hours spent
-  - Nr of automated unit test cases 
+    <br>6h
+  - Nr of automated unit test cases
+    <br>12
   - Coverage
+    <br>92% of the backend code, measured with pytest-cov 
 - E2E testing:
   - Total hours estimated
+    <br>4h
   - Total hours spent
+    <br>2h 30m
   - Nr of test cases
+    <br>4 E2E tests with Playwright
 - Code review 
-  - Total hours estimated 
-  - Total hours spent  
-
+  - Total hours estimated
+    <br>2h
+  - Total hours spent
+    <br>3h
 
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
+  - Agreeing on the tech stack and the workflow (OQM-27) took 8h instead of 4h, because the discussions were long in a team with very different experience.
+  - The totem UI (OQM-23) took 3h 50m instead of 2h. It was first built on fake data and connected to the real backend only late.
+  - The unit tests (OQM-16, OQM-22) took 3h each instead of 2h, because mocking the database session was new for us and the first version had to be fixed.
+  - The code reviews took longer than planned because they found real bugs, such as ticket codes that could repeat and Next customer returning the same ticket every time, and the fixes were done inside the review.
+  - Integration and E2E tests took less than estimated (2h 30m instead of 4h), because the setup of the first story was reused for the second.
 
 - What lessons did you learn (both positive and negative) in this sprint?
+  - Positive: tests at three levels and code review caught real bugs before the demo. The branch rules with one approval worked once everyone followed them. At the review we were honest about what was missing.
+  - Negative: frontend and backend met late, and almost everything was merged in the last hours before the demo, with no rehearsal. Some work skipped the agreed process (direct pushes to `main`, branches without a pull request, merges into the wrong branch). Questions and review requests often stayed unanswered for hours, and a decision taken in the chat (call a ticket only if it is still waiting) never reached the code. Quality depended on one person checking and fixing at the end of the sprint. Splitting the work by layer instead of by story made integration late.
 
 - Which improvement goals set in the previous retrospective were you able to achieve? 
+
+  - This was our first sprint, so there were no goals from a previous retrospective.
+  
   
 - Which ones you were not able to achieve? Why?
+  -Not applicable, for the same reason.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
-
-> Propose one or two
+  1. **Integrate early and rehearse the demo.** Every story has a thin working version merged into `dev` by the middle of the sprint, and nothing big is merged in the last 24 hours. Each sprint has a demo owner, a different person each time, who tries the whole product as a user two days before the demo. Mid-sprint integration and the rehearsal are tasks on the board, with an estimate.
+  2. **A written working agreement on communication.** A three-line check-in in the chat every working day (what I did, what I will do, what blocks me), and an answer to every question or review request within 24 hours. Stories are owned by mixed pairs, a more experienced and a less experienced member, so that experience spreads. At the next retrospective we check the number of check-ins and how long pull requests waited for a review.
 
 - One thing you are proud of as a Team!!
+  Both stories really met the Definition of Done, with all the tests passing at three levels, and the code review stopped real bugs before they reached the demo.
