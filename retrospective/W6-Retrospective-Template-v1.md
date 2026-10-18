@@ -1,8 +1,7 @@
-TEMPLATE FOR RETROSPECTIVE (Team 13)
+Sprint 1 RETROSPECTIVE (Team 13)
 =====================================
 
-The retrospective should include _at least_ the following
-sections:
+## Table of Content
 
 - [process measures](#process-measures)
 - [quality measures](#quality-measures)
