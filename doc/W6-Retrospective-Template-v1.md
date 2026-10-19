@@ -14,7 +14,7 @@ sections:
 
 - Number of stories committed vs done: **2 vs 2**
 - Total points committed vs done: **7 vs 7**
-- Nr of hours planned vs spent (as a team): **38h vs 47**
+- Nr of hours planned vs spent (as a team): **38h vs 47h**
 
 
 ### Detailed statistics
@@ -85,11 +85,11 @@ sections:
   
   
 - Which ones you were not able to achieve? Why?
-  -Not applicable, for the same reason.
+  - Not applicable, for the same reason.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
   1. **Integrate early and rehearse the demo.** Every story has a thin working version merged into `dev` by the middle of the sprint, and nothing big is merged in the last 24 hours. Each sprint has a demo owner, a different person each time, who tries the whole product as a user two days before the demo. Mid-sprint integration and the rehearsal are tasks on the board, with an estimate.
   2. **A written working agreement on communication.** A three-line check-in in the chat every working day (what I did, what I will do, what blocks me), and an answer to every question or review request within 24 hours. Stories are owned by mixed pairs, a more experienced and a less experienced member, so that experience spreads. At the next retrospective we check the number of check-ins and how long pull requests waited for a review.
 
 - One thing you are proud of as a Team!!
-  Both stories really met the Definition of Done, with all the tests passing at three levels, and the code review stopped real bugs before they reached the demo.
+  - Both stories really met the Definition of Done, with all the tests passing at three levels, and the code review stopped real bugs before they reached the demo.
